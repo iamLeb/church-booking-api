@@ -8,11 +8,10 @@ const generateToken = (res, _id) => {
     // store the token to cookie
     res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: true, // ensure secure flag is only set in production
+        sameSite: 'strict',
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
     });
-    
 }
 
 module.exports = { generateToken };

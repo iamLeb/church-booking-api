@@ -45,7 +45,8 @@ const registerUser = async (req, res, requirePassword, additionalData = {}) => {
 
         // Password validation if required
         if (requirePassword && (!password || validation.validatePassword(res, password))) {
-            return errorResponse(res, null, 'Password is required and must meet validation criteria', 400);
+            errorResponse(res, null, 'Password is required and must meet validation criteria', 400);
+            return false;
         }
 
         // Check if email already exists in the database
@@ -57,7 +58,7 @@ const registerUser = async (req, res, requirePassword, additionalData = {}) => {
 
         // Hash the password if applicable
         const hashedPassword = requirePassword ? await bcrypt.hash(password, 10) : null;
-
+        req.body.email = req.body.email.toLowerCase();
         // Create user object
         const userData = {
             ...req.body,
@@ -67,9 +68,9 @@ const registerUser = async (req, res, requirePassword, additionalData = {}) => {
 
         // Save the user to the database
         const user = await service.create(User, userData);
-
+    
         // Generate token
-        if (user.type !== 'passenger') {
+        if (user && (user.type !== 'passenger')) {
             await generateToken(res, user._id);
         }
         

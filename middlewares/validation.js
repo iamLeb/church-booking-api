@@ -8,22 +8,25 @@ const isEmpty = (res, data) => {
     const keys = Object.keys(data);
     for (let key of keys) {
         if (validator.isEmpty(data[key])) {
-            return errorResponse(res, null, 'All fields are required', 400);
+            errorResponse(res, null, 'All fields are required', 400);
+            return false;
         }
     }
 };
 
 // Example validation functions
-const validateEmail = (res, email) => {
+const validateEmail = (res, email, next) => {
     if (!validator.isEmail(email)) {
-        return errorResponse(res, null, 'You have entered an invalid email address', 400);
+        errorResponse(res, null, 'You have entered an invalid email address', 400);
+        return false;
     }
 };
 
 const validatePassword = (res, password) => {
     // Example: Password must be at least 6 characters long
     if (!validator.isStrongPassword(password)) {
-        return errorResponse(res, null, 'Password must contain special characters and must be at least 6 characters long', 400);
+        errorResponse(res, null, 'Password must contain special characters and must be at least 6 characters long', 400);
+        return false;
     }
 };
 

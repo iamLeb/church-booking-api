@@ -19,17 +19,19 @@ class App {
     }
 
     middlewares() {
+        this.app.use(cookieParser());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(cookieParser());
         this.app.use(cors({
-            origin: process.env.ORIGINS,
+            origin: process.env.ORIGINS || '*',
             methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
             credentials: true,
         }));
     }
 
     routes() {
+        // ping server
+        this.app.get('/ping', (req, res) => res.status(200).json('Server is Running'));
         this.app.use('/auth', authRoute);
         this.app.use('/driver', driverRoute);
 
