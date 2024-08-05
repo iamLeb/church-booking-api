@@ -5,7 +5,7 @@ const { User } = require('../models');
 const AuthValidation = async (req, res, next) => {
     try {
         const service = new Service();
-        const token = req.cookies.token;
+        const token = req.query.token;
 
         if (!token) {
             return res.status(401).json({ message: 'No token found' });

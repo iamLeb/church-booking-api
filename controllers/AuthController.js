@@ -189,8 +189,8 @@ const login = async (req, res, next) => {
         // Compare password 
         if (user && (await bcrypt.compareSync(password, user.password))) {
             // Generate token 
-            generateToken(res, user._id);
-            return successResponse(res, { user }, 'Login successful');
+            const token = generateToken(res, user._id);
+            return successResponse(res, { user, token }, 'Login successful');
         } else {
             return errorResponse(res, null, 'Account Not Found', 401);
         }
