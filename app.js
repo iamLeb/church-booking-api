@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 require('./configs/database');
-const { authRoute, userRoute, driverRoute, churchRoute, bookRoute } = require('./routes');
+const { authRoute, driverRoute } = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 
 class App {
@@ -28,7 +28,7 @@ class App {
             credentials: true,
         }));
     }
-// nothing 
+
     routes() {
         // ping server
         this.app.get('/ping', (req, res) => res.status(200).json('Server is Running'));
