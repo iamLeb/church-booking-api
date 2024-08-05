@@ -7,7 +7,7 @@ const cors = require('cors');
 require('dotenv').config();
 require('./configs/database');
 const authRoute = require('./routes/authRoute');
-// const { authRoute, driverRoute } = require('./routes');
+const driverRoute = require('./routes/driverRoute');
 const errorHandler = require('./middlewares/errorHandler');
 
 class App {
@@ -34,10 +34,10 @@ class App {
         // ping server
         this.app.get('/ping', (req, res) => res.status(200).json('Server is Running'));
         this.app.use('/auth', authRoute);
-        // this.app.use('/driver', driverRoute);
+        this.app.use('/driver', driverRoute);
 
         // Use error handling middleware
-        // this.app.use(errorHandler);
+        this.app.use(errorHandler);
     }
 
     start() {

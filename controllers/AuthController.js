@@ -1,6 +1,8 @@
 const validation = require('../middlewares/validation');
 const Service = require('../helpers/Service');
-const { User, Driver, Booking } = require('../models');
+const User = require('../models/User');
+const Driver = require('../models/Driver');
+const Booking = require('../models/Booking');
 const bcrypt = require('bcryptjs');
 const { generateToken } = require('../utils/generateToken');
 const { successResponse, errorResponse } = require('../utils/responseHelper');
