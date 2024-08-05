@@ -23,7 +23,7 @@ class App {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors({
-            origin: process.env.ORIGINS || '*',
+            origin: process.env.ORIGINS,
             methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
             credentials: true,
         }));
