@@ -26,9 +26,9 @@ class Service {
         }
     }
 
-    async get(model) {
+    async get(model, filter = {}) {
         try {
-            return await model.find();
+            return await model.find(filter);
         } catch (e) {
             throw new Error('Error getting documents');
         }

@@ -40,6 +40,7 @@ const register = async (req, res, next) => {
 const registerUser = async (req, res, requirePassword, additionalData = {}) => {
     try {
         const { name, email, password } = req.body;
+        let token;
 
         // Validate required fields
         validation.isEmpty(res, { name, email });
@@ -72,11 +73,11 @@ const registerUser = async (req, res, requirePassword, additionalData = {}) => {
         const user = await service.create(User, userData);
     
         // Generate token
-        if (user && (user.type !== 'passenger')) {
-            await generateToken(res, user._id);
+        if (user && (user.type === 'church')) {
+            token = generateToken(res, user._id);
         }
         
-        return user;
+        return {user, token};
 
     } catch (error) {
         throw error;
@@ -88,11 +89,11 @@ const registerUser = async (req, res, requirePassword, additionalData = {}) => {
 //  @access     Protected 
 const church = async (req, res, next) => {
     try {
-        const user = await registerUser(req, res, true, { type: 'church' });
+        const { user, token } = await registerUser(req, res, true, { type: 'church' });
         if (!user) {
             return errorResponse(res, null, 'There was an error creating this account', 400);
         }
-        return successResponse(res, { user }, 'Church registered successfully');
+        return successResponse(res, { user, token }, 'Church registered successfully');
     } catch (error) {
         if (!res.headersSent) {
             next(error);
@@ -121,7 +122,7 @@ const driver = async (req, res, next) => {
             return errorResponse(res, null, 'Church not found', 404);
         }
 
-        const user = await registerUser(req, res, true, { type: 'driver' });
+        const {user} = await registerUser(req, res, true, { type: 'driver' });
 
         // Save the driver to the database
         const driver = await service.create(Driver, {
@@ -176,6 +177,7 @@ const passenger = async (req, res, next) => {
 //  @access     Public 
 const login = async (req, res, next) => {
     try {
+        req.body.email = req.body.email.toLowerCase();
         const { email, password } = req.body;
         if (!email || !password) {
             return errorResponse(res, null, 'All fields are required', 400);

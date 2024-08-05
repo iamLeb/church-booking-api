@@ -8,6 +8,7 @@ require('dotenv').config();
 require('./configs/database');
 const authRoute = require('./routes/authRoute');
 const driverRoute = require('./routes/driverRoute');
+const churchRoute = require('./routes/churchRoute');
 const errorHandler = require('./middlewares/errorHandler');
 
 class App {
@@ -35,6 +36,7 @@ class App {
         this.app.get('/ping', (req, res) => res.status(200).json('Server is Running'));
         this.app.use('/auth', authRoute);
         this.app.use('/driver', driverRoute);
+        this.app.use('/churches', churchRoute);
 
         // Use error handling middleware
         this.app.use(errorHandler);
