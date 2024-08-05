@@ -36,7 +36,7 @@ class App {
         // this.app.use('/driver', driverRoute);
 
         // Use error handling middleware
-        this.app.use(errorHandler);
+        // this.app.use(errorHandler);
     }
 
     start() {
