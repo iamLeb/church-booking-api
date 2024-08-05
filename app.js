@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 require('./configs/database');
-const { authRoute, driverRoute } = require('./routes');
+const authRoute = require('./routes/authRoute');
+// const { authRoute, driverRoute } = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 
 class App {
