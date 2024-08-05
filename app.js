@@ -28,7 +28,7 @@ class App {
             credentials: true,
         }));
     }
-
+// nothing 
     routes() {
         // ping server
         this.app.get('/ping', (req, res) => res.status(200).json('Server is Running'));
